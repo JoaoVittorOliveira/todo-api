@@ -61,6 +61,14 @@ public class User {
         return this.password;
     }
 
+    public List<Task> getTasks() {
+        return this.tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
