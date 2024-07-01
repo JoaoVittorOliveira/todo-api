@@ -12,7 +12,7 @@ import com.joaovittor.todoproject.User.service.UserService;
 
 @Service
 public class TaskService {
-    
+
     @Autowired
     private TaskRepository taskRepository;
 

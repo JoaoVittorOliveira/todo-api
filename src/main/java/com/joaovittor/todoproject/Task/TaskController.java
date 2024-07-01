@@ -1,4 +1,4 @@
-package com.joaovittor.todoproject.User.controller;
+package com.joaovittor.todoproject.Task;
 
 import java.net.URI;
 
@@ -15,52 +15,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.joaovittor.todoproject.User.model.User;
-import com.joaovittor.todoproject.User.service.UserService;
+import com.joaovittor.todoproject.Task.model.Task;
+import com.joaovittor.todoproject.Task.service.TaskService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/tasks")
 @Validated
-public class UserController {
+public class TaskController {
     
     @Autowired
-    private UserService userService;
+    private TaskService taskService;
 
     @PostMapping
     @Validated
-    public ResponseEntity<Void> create( @Valid @RequestBody User user ){
-        userService.create(user);
+    public ResponseEntity<Void> create( @Valid @RequestBody Task task ){
+        taskService.create(task);
 
-        // pegando o contexto do path(/user/), e colocando o id(user/{id}) 
-        // do usuario inserido no path
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                  .path("/{id}").buildAndExpand(user.getId()).toUri();
+                  .path("/{id}").buildAndExpand(task.getId()).toUri();
 
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
     @Validated
-    public ResponseEntity<Void> update( @Valid @RequestBody User user, @PathVariable Long id){
-        user.setId(id);
-        userService.update(user);
+    public ResponseEntity<Void> update( @Valid @RequestBody Task task, @PathVariable Long id){
+        task.setId(id);
+        taskService.update(task);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete( @PathVariable Long id){
-       userService.delete(id); 
+        taskService.delete(id); 
        return ResponseEntity.noContent().build(); 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById( @PathVariable Long id){
-
-        User user = userService.findById(id);
-
-        return ResponseEntity.ok().body(user);
+    public ResponseEntity<Task> findById(Long id){
+        Task task = taskService.findById(id);
+        return ResponseEntity.ok(task);
     }
 
 }
